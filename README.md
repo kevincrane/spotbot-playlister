@@ -59,3 +59,10 @@ There are also 3 helper scripts available:
 #   Mostly helpful for picking which subreddits you care about in 'music_subreddits'
 ./subreddit_counts.py
 ```
+
+### Acknowledgement
+
+Thanks to these two tools who do the heavy lifting of actually talking to
+Spotify and Reddit for me.
+* (Spotipy)[https://github.com/plamere/spotipy]
+* (PRAW)[https://github.com/praw-dev/praw]

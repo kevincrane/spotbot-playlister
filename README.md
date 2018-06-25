@@ -62,7 +62,7 @@ There are also 3 helper scripts available:
 
 ### Acknowledgement
 
-Thanks to these two tools who do the heavy lifting of actually talking to
+Big thanks to these two tools who do the heavy lifting of actually talking to
 Spotify and Reddit for me.
-* (Spotipy)[https://github.com/plamere/spotipy]
-* (PRAW)[https://github.com/praw-dev/praw]
+* [Spotipy](https://github.com/plamere/spotipy)
+* [PRAW](https://github.com/praw-dev/praw)

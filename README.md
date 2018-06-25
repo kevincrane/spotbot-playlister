@@ -27,7 +27,8 @@ respective developer pages.
 
 You'll also need to authenticate your Spotify account through an actual web
 browser. Run the program through the instructions below, then copy the URL from
-your browser back to the prompt on the terminal when asked.
+your browser back to the prompt on the terminal when asked (the authenctication
+key will be stored on the local filesystem at `.cache-<SPOTIFY_USER_ID>`).
 
 ## Usage
 

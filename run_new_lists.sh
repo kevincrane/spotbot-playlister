@@ -2,7 +2,7 @@
 
 trap "exit" INT
 cd $(dirname "$0")
-source .venv/bin/activate
+PYTHON=".venv/bin/python3"
 
 LOGFILE="logs/newlist_$(date '+%y%m%d').log"
 SUBREDDIT_LIST_FILE='music_subreddits.txt'
@@ -17,7 +17,7 @@ mkdir -p logs
 while read SUBREDDIT; do
     echo
     echo "Running spotbot to create new playlist for subreddit '$SUBREDDIT'"
-    CMD="./spotbot_playlister.py --subreddit $SUBREDDIT --new-list --playlist-length $PLAYLIST_LENGTH --max-spotify-qps $SPOTIFY_QPS --logfile $LOGFILE"
+    CMD="$PYTHON spotbot_playlister.py --subreddit $SUBREDDIT --new-list --playlist-length $PLAYLIST_LENGTH --max-spotify-qps $SPOTIFY_QPS --logfile $LOGFILE"
     echo "  $CMD"
     $CMD
     RESULT=$?

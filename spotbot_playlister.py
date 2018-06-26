@@ -238,13 +238,21 @@ def get_or_create_playlist_id(sp, subreddit):
     """
     target_playlist = SPOTIFY_PLAYLIST.format(subreddit)
     playlists = sp.user_playlists(SPOTIFY_USER_ID)
-    for playlist in playlists['items']:
-        if playlist['name'] == target_playlist:
-            log.debug('found existing playlist "{}"" - playlist_id {}'.format(target_playlist, playlist['id']))
-            return playlist['id']
+    while playlists:
+        for playlist in playlists['items']:
+            # Iterate through this page of playlists until we find one with the right title
+            if playlist['name'] == target_playlist:
+                log.debug('found existing playlist "{}"" - playlist_id {}'.format(target_playlist, playlist['id']))
+                return playlist['id']
+
+        if playlists['next']:
+            # Load next page of playlists if available
+            playlists = sp.next(playlists)
+        else:
+            break
 
     # playlist doesn't exist, create new one and return id
-    log.debug('didnt find playlist "{}"; creating it now'.format(target_playlist))
+    log.info('Didnt find existing playlist "{}"; creating it now'.format(target_playlist))
     new_playlist = sp.user_playlist_create(user=SPOTIFY_USER_ID,
                                            name=target_playlist)
     return new_playlist['id']
@@ -271,6 +279,7 @@ def add_songs_to_playlist(sp, playlist_id, track_ids, num_new_songs=PLAYLIST_LEN
         return len(new_track_ids)
 
     # Get all songs in the playlist
+    #   TODO: might need to add pagination here as well (see: get_or_create_playlist_id())
     current_tracks = sp.user_playlist(SPOTIFY_USER_ID, playlist_id=playlist_id, fields='tracks')
 
     # Pull out the track_ids and filter by new songs (not in playlist)
@@ -300,6 +309,7 @@ def clear_oldest_playlist_songs(sp, playlist_id, max_playlist_length=40):
     :param int max_playlist_length: max length we expect the playlist to be
     :return int: new length of the playlist
     """
+    # TODO: might need to add pagination here as well (see: get_or_create_playlist_id())
     current_tracks = sp.user_playlist(SPOTIFY_USER_ID, playlist_id=playlist_id, fields='tracks')
     current_track_ids = [track['track']['id'] for track in current_tracks['tracks']['items']]
 

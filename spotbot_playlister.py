@@ -46,13 +46,8 @@ AMBIGUOUS_TERMS = [
     ' ft. ',
 ]
 
-SUBREDDIT = 'popheads'
-
 
 # TODO:
-# - throttle by qps (add flag --max-qps)
-#   - make new class RateLimited() that:
-#       - constructor: RateLimited(limited_obj: fully-instantiated class, reqs_per, time_period)
 # - run on lambda
 # - wrap in docker
 # - set up as cron job on synology; disable lambda
@@ -60,7 +55,6 @@ SUBREDDIT = 'popheads'
 # - make new python main script to run command for each one (sequential, add flag for --num-parallel)
 # - run it
 # - distribute to friends
-# - pull out secrets, put on github
 
 
 def init_reddit(client_id, client_secret, user_agent):
@@ -123,6 +117,7 @@ Usage Example:
                         help='Maximum length of a playlist; Default: {}'.format(PLAYLIST_LENGTH))
     parser.add_argument('--max-spotify-qps', type=int, default=SPOTIFY_MAX_QPS,
                         help='Maximum qps of requests to Spotify; Default: {}'.format(SPOTIFY_MAX_QPS))
+    parser.add_argument('--logfile', type=str, help='Which file to write logs to', default=None)
     parser.add_argument('--verbose', action='store_true', help='Print more informative log statements')
     args = parser.parse_args()
 
@@ -139,6 +134,21 @@ Usage Example:
             args.num_songs = args.playlist_length
 
     return args
+
+
+def configure_logging(subreddit, verbose=False, logfile=None):
+    """
+    Configure logging for this job
+    :param str subreddit: name of the subreddit we're logging
+    :param bool verbose: print logs at DEBUG level if true, else INFO
+    :param str logfile: write logs to a file instead of stderr
+    """
+    log_level = log.DEBUG if args.verbose else log.INFO
+    log_format = '%(asctime)s %(levelname)s : ({}) %(message)s'.format(args.subreddit)
+    if logfile:
+        log.basicConfig(level=log_level, format=log_format, filename=logfile)
+    else:
+        log.basicConfig(level=log_level, format=log_format)
 
 
 def throttle_maybe(time_start, ops_per_sec):
@@ -415,11 +425,12 @@ def main(subreddit, new_list=False, num_songs=SONGS_PER_DAY, time_period='day',
 # ***** Entry point for program *****
 
 if __name__ == '__main__':
+    # Get cmdline args and config logging
     start_time = time.time()
     args = parse_args()
-    log_level = log.DEBUG if args.verbose else log.INFO
-    log.basicConfig(level=log_level, format='%(asctime)s %(levelname)s : ({}) %(message)s'.format(args.subreddit))
+    configure_logging(subreddit=args.subreddit, verbose=args.verbose, logfile=args.logfile)
 
+    # Run the appropriate job
     if args.daily:
         num_songs_added, new_length = job_daily_top_songs(args)
     elif args.weekly:

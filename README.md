@@ -7,9 +7,9 @@ day, keeping you up to date on the best new music.
 
 First, set up your local environment.
 
-```
+```bash
 cd spotbot-playlister
-virtualenv .venv
+virtualenv -p python3 .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -23,12 +23,18 @@ respective developer pages.
 * `SPOTIFY_CLIENT_ID`
 * `SPOTIFY_CLIENT_SECRET`
 * `SPOTIFY_USER_ID` - the user id of the spotify user making requests. This can
-  be found at https://www.spotify.com/us/account/overview/
+  be found on [your account user page](https://www.spotify.com/us/account/overview/)
 
 You'll also need to authenticate your Spotify account through an actual web
 browser. Run the program through the instructions below, then copy the URL from
 your browser back to the prompt on the terminal when asked (the authenctication
 key will be stored on the local filesystem at `.cache-<SPOTIFY_USER_ID>`).
+
+To run this job every day, add the following lines to `/etc/crontab`:
+```
+# Spotbot Playlister, daily job runs at 22:00 every weekday (1-5)
+00  22   *   * 1-5 <USER> <PATH/TO/>spotbot-playlister/run_daily.sh
+```
 
 ## Usage
 

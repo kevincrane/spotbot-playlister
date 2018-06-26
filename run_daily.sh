@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 trap "exit" INT
+cd $(dirname "$0")
+source .venv/bin/activate
 
+LOGFILE="logs/daily_$(date '+%y%m%d').log"
 SUBREDDIT_LIST_FILE='music_subreddits.txt'
 SONGS_PER_DAY=2
 PLAYLIST_LENGTH=40
@@ -11,12 +14,12 @@ SUCCESS_COUNT=0
 FAILED_COUNT=0
 FAILED_SUBREDDITS=()
 
+mkdir -p logs
 while read SUBREDDIT; do
     echo
     echo "Running spotbot daily song collection for subreddit '$SUBREDDIT'"
-    CMD="./spotbot_playlister.py --subreddit $SUBREDDIT --daily --playlist-length $PLAYLIST_LENGTH --num-songs $SONGS_PER_DAY --max-spotify-qps $SPOTIFY_QPS"
+    CMD="./spotbot_playlister.py --subreddit $SUBREDDIT --daily --playlist-length $PLAYLIST_LENGTH --num-songs $SONGS_PER_DAY --max-spotify-qps $SPOTIFY_QPS --logfile $LOGFILE"
     echo "  $CMD"
-    echo
     $CMD
     RESULT=$?
         if [ $RESULT -eq 0 ]; then

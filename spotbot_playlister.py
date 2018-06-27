@@ -241,7 +241,7 @@ def get_or_create_playlist_id(sp, subreddit):
     while playlists:
         for playlist in playlists['items']:
             # Iterate through this page of playlists until we find one with the right title
-            if playlist['name'] == target_playlist:
+            if playlist['name'].lower() == target_playlist.lower():
                 log.debug('found existing playlist "{}"" - playlist_id {}'.format(target_playlist, playlist['id']))
                 return playlist['id']
 
@@ -394,7 +394,7 @@ def main(subreddit, new_list=False, num_songs=SONGS_PER_DAY, time_period='day',
     :return tuple: Returns tuple (num_songs_added, new_playlist_length)
     """
     log.info('Finding top songs for /r/{} from time period "{}"; creating a new list? {}; '
-             'going to add {} songs, to a max playlist length of {}.'
+             'attempting to add {} songs, to a max playlist length of {}.'
              .format(subreddit, time_period, new_list, num_songs, max_playlist_length))
 
     # Initialize Reddit Client

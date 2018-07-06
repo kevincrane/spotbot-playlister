@@ -216,10 +216,15 @@ def search_for_track(sp, submission_title):
     spotify_search_results = sp.search(search_title)
 
     if spotify_search_results['tracks']['items']:
-        # got at least one result back from spotify; return the top match
+        # Got at least one result back from spotify; return the top match
         artist = spotify_search_results['tracks']['items'][0]['artists'][0]['name']
         track = spotify_search_results['tracks']['items'][0]['name']
         track_id = spotify_search_results['tracks']['items'][0]['id']
+
+        if 'karaoke' and 'performed' in track.lower():
+            # A karaoke version was the best result, skip this track
+            log.debug('the best track available was a karaoke version: {}'.format(track))
+            return None
 
         log.debug('found track: {} - {}'.format(artist, track))
         return track_id

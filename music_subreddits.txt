@@ -1,8 +1,6 @@
 AfricanMusic
 2010smusic
 britpop
-EarlyMusic
-concertband
 2000smusic
 BayRap
 afrobeat
@@ -11,7 +9,6 @@ brazilianmusic
 bassheavy
 baroque
 contemporary
-orchestra
 electropop
 epicmetal
 OutlawCountry
@@ -41,9 +38,7 @@ Drone
 WorldMusic
 ElitistClassical
 rnb
-Opera
 tech_house
-jambands
 NuDisco
 folkmetal
 90sMusic
@@ -76,13 +71,11 @@ AlternativeRock
 MusicForConcentration
 folk
 ukhiphopheads
-hiphop101
 90sHipHop
 ExperimentalMusic
 hardstyle
 GuiltyPleasureMusic
 runningmusic
-vocaloid
 ClassicRock
 cyberpunk_music
 DoomMetal
@@ -110,11 +103,9 @@ PsychedelicRock
 CoverSongs
 electrohouse
 chillmusic
-LofiHipHop
 PostRock
 Techno
 house
-festivals
 Rap
 indie
 PostHardcore
@@ -133,11 +124,8 @@ futurebeats
 DubStep
 trap
 jazz
-ifyoulikeblank
-vaporwave
 spop
 Frisson
-Outrun
 classicalmusic
 mashups
 EDM

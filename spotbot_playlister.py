@@ -221,7 +221,7 @@ def search_for_track(sp, submission_title):
         track = spotify_search_results['tracks']['items'][0]['name']
         track_id = spotify_search_results['tracks']['items'][0]['id']
 
-        if 'karaoke' and 'performed' in track.lower():
+        if ('karaoke' and 'performed') in track.lower() or ('karaoke' and 'in the style of') in track.lower():
             # A karaoke version was the best result, skip this track
             log.debug('the best track available was a karaoke version: {}'.format(track))
             return None
@@ -367,7 +367,7 @@ def job_new_list(args):
         if new_length < args.playlist_length:
             # If we still haven't added enough songs, increase scope of our search and try again (with same list)
             log.debug('Playlist has only {} songs and has not yet reached capacity; re-running search '
-                     'for time period "{}"'.format(new_length, wider_time_period))
+                      'for time period "{}"'.format(new_length, wider_time_period))
             songs_added, new_length = main(subreddit=args.subreddit, new_list=False,
                                            num_songs=(args.num_songs - new_length),
                                            time_period=wider_time_period, max_submission_results=200,

@@ -39,6 +39,7 @@ WorldMusic
 ElitistClassical
 rnb
 tech_house
+newwave
 NuDisco
 folkmetal
 90sMusic
